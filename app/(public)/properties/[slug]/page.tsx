@@ -12,8 +12,10 @@ import {
   Compass, 
   FileText, 
   HelpCircle,
-  Star
+  Star,
+  LogOut
 } from "lucide-react";
+import { signOut } from "@/lib/auth-actions";
 import PropertyGallery from "@/components/property/PropertyGallery";
 import BookingWidget from "@/components/property/BookingWidget";
 import PropertyMap from "@/components/property/PropertyMap";
@@ -91,8 +93,22 @@ export default async function PropertyDetailPage({
             </span>
           </Link>
           <div className="flex items-center gap-4 text-xs font-semibold text-stone-500">
-            <Link href="/properties" className="hover:text-green-850">All Stays</Link>
-            <Link href="/login" className="px-3.5 py-1.5 bg-green-850 hover:bg-green-800 text-white rounded-lg">Sign In</Link>
+            <Link href="/" className="hover:text-green-850">All Stays</Link>
+            {isAuthenticated ? (
+              <>
+                <Link href="/dashboard" className="hover:text-green-850">Owner Dashboard</Link>
+                <form action={signOut}>
+                  <button type="submit" className="flex items-center gap-1 hover:text-red-650 transition-colors">
+                    <LogOut className="w-4 h-4" /> Sign Out
+                  </button>
+                </form>
+              </>
+            ) : (
+              <>
+                <Link href="/login" className="hover:text-green-850">Host Your Stay</Link>
+                <Link href="/login" className="px-3.5 py-1.5 bg-green-850 hover:bg-green-800 text-white rounded-lg">Sign In</Link>
+              </>
+            )}
           </div>
         </div>
       </header>

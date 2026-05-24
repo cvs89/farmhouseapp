@@ -51,6 +51,12 @@ const config: Config = {
           DEFAULT: "oklch(var(--card) / <alpha-value>)",
           foreground: "oklch(var(--card-foreground) / <alpha-value>)",
         },
+        green: {
+          850: "#115e2e",
+        },
+        slate: {
+          905: "#0b1120",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
