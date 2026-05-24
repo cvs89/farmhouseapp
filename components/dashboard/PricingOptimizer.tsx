@@ -202,7 +202,7 @@ export default function PricingOptimizer({ properties }: PricingOptimizerProps) 
             <div className="space-y-1">
               <span className="text-[10px] text-stone-400 font-bold uppercase">Strategic Insight</span>
               <p className="text-xs text-stone-700 dark:text-stone-300 leading-relaxed italic">
-                "{suggestions.rationale}"
+                &ldquo;{suggestions.rationale}&rdquo;
               </p>
             </div>
           </div>
