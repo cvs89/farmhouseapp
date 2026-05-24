@@ -54,7 +54,7 @@ export default async function CustomerBookingsPage() {
             <Compass className="w-12 h-12 text-stone-400 mx-auto" />
             <h3 className="text-lg font-bold text-stone-850 dark:text-stone-100">No Reservations Yet</h3>
             <p className="text-sm text-stone-500 leading-relaxed">
-              You haven't booked any farmhouses. Explore published properties to find your first escape!
+              You haven&apos;t booked any farmhouses. Explore published properties to find your first escape!
             </p>
             <Link
               href="/properties"

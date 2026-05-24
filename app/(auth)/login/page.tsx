@@ -120,7 +120,7 @@ export default function LoginPage() {
 
           {/* Footer Toggle */}
           <div className="mt-6 text-center text-xs text-stone-500 dark:text-stone-400 border-t border-stone-200/40 dark:border-slate-800/40 pt-4">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link 
               href="/signup" 
               className="font-semibold text-green-700 dark:text-green-400 hover:underline"
