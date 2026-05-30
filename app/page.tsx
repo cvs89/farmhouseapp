@@ -4,6 +4,7 @@ import { IndianRupee, Users, Bed, Bath, Trees, Compass, Sparkles, Filter, LogOut
 import Image from "next/image";
 import OpenAI from "openai";
 import DiscoveryMap from "@/components/property/DiscoveryMap";
+import DirectoryFilters from "@/components/property/DirectoryFilters";
 import { signOut } from "@/lib/auth-actions";
 
 const apiKey = process.env.OPENAI_API_KEY;
@@ -14,7 +15,15 @@ const openai = new OpenAI({
 export default async function HomePage({
   searchParams,
 }: {
-  searchParams: { search?: string; capacity?: string; maxPrice?: string; vibe?: string; tab?: string };
+  searchParams: { 
+    search?: string; 
+    capacity?: string; 
+    maxPrice?: string; 
+    vibe?: string; 
+    tab?: string;
+    startDate?: string;
+    endDate?: string;
+  };
 }) {
   const supabase = createClient();
 
@@ -26,6 +35,8 @@ export default async function HomePage({
   const maxPrice = Number(searchParams.maxPrice) || 999999;
   const vibe = searchParams.vibe || "";
   const activeTab = searchParams.tab || "filters"; // 'filters' or 'vibe'
+  const startDate = searchParams.startDate || "";
+  const endDate = searchParams.endDate || "";
 
   let properties: any[] = [];
   let isVibeMatched = false;
@@ -87,6 +98,30 @@ export default async function HomePage({
     }
     if (maxPrice < 999999) {
       properties = properties.filter((p) => Number(p.base_price) <= maxPrice);
+    }
+
+    // Availability Date Range Filter
+    if (startDate && endDate) {
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      if (start < end) {
+        const dateStrings: string[] = [];
+        const current = new Date(start);
+        while (current < end) {
+          dateStrings.push(current.toISOString().split("T")[0]);
+          current.setDate(current.getDate() + 1);
+        }
+
+        const { data: blockedData, error: blockedError } = await supabase
+          .from("availability")
+          .select("property_id")
+          .in("blocked_date", dateStrings);
+
+        if (!blockedError && blockedData && blockedData.length > 0) {
+          const blockedIds = Array.from(new Set(blockedData.map((b) => b.property_id)));
+          properties = properties.filter((p) => !blockedIds.includes(p.id));
+        }
+      }
     }
   }
 
@@ -165,49 +200,13 @@ export default async function HomePage({
 
         {/* Search Containers */}
         {activeTab === "filters" ? (
-          /* Standard filters form */
-          <form className="glass-panel p-6 rounded-2xl grid grid-cols-1 md:grid-cols-4 gap-4 items-end shadow-sm animate-fade-in">
-            <input type="hidden" name="tab" value="filters" />
-            <div className="space-y-1.5 text-left">
-              <label className="text-xs font-semibold text-stone-600 dark:text-stone-400">Search Stay</label>
-              <input
-                type="text"
-                name="search"
-                defaultValue={search}
-                placeholder="e.g. Harni Greens, Pur Road..."
-                className="w-full px-4 py-2.5 rounded-xl border border-stone-200/60 dark:border-slate-800/40 bg-white dark:bg-slate-950 focus:outline-none focus:ring-2 focus:ring-green-800/20 text-xs text-stone-800 dark:text-stone-200"
-              />
-            </div>
-
-            <div className="space-y-1.5 text-left">
-              <label className="text-xs font-semibold text-stone-600 dark:text-stone-400">Guests Capacity</label>
-              <input
-                type="number"
-                name="capacity"
-                defaultValue={minCapacity || ""}
-                placeholder="e.g. 10"
-                className="w-full px-4 py-2.5 rounded-xl border border-stone-200/60 dark:border-slate-800/40 bg-white dark:bg-slate-950 focus:outline-none focus:ring-2 focus:ring-green-800/20 text-xs text-stone-800 dark:text-stone-200"
-              />
-            </div>
-
-            <div className="space-y-1.5 text-left">
-              <label className="text-xs font-semibold text-stone-600 dark:text-stone-400">Max Price / night (₹)</label>
-              <input
-                type="number"
-                name="maxPrice"
-                defaultValue={maxPrice === 999999 ? "" : maxPrice}
-                placeholder="e.g. 20000"
-                className="w-full px-4 py-2.5 rounded-xl border border-stone-200/60 dark:border-slate-800/40 bg-white dark:bg-slate-950 focus:outline-none focus:ring-2 focus:ring-green-800/20 text-xs text-stone-800 dark:text-stone-200"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full py-2.5 bg-green-800 hover:bg-green-700 text-white rounded-xl text-xs font-bold transition-all duration-300 shadow-md"
-            >
-              Apply Filters
-            </button>
-          </form>
+          <DirectoryFilters
+            initialSearch={search}
+            initialCapacity={minCapacity || ""}
+            initialMaxPrice={maxPrice === 999999 ? "" : maxPrice}
+            initialStartDate={startDate}
+            initialEndDate={endDate}
+          />
         ) : (
           /* NLP Vibe Search prompt */
           <form className="glass-panel p-6 rounded-2xl flex flex-col md:flex-row gap-4 items-center shadow-sm animate-fade-in text-left w-full">
