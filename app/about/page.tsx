@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { signOut } from "@/lib/auth-actions";
+import Footer from "@/components/Footer";
 import {
   Trees,
   Compass,
@@ -424,6 +425,8 @@ export default function AboutUsPage() {
         </div>
 
       </main>
+
+      <Footer />
     </div>
   );
 }

@@ -53,6 +53,7 @@ import BookingWidget from "@/components/property/BookingWidget";
 import PropertyMap from "@/components/property/PropertyMap";
 import ChatConcierge from "@/components/property/ChatConcierge";
 import AuthModalGate from "@/components/auth/AuthModalGate";
+import Footer from "@/components/Footer";
 
 export default async function PropertyDetailPage({
   params,
@@ -416,6 +417,8 @@ export default async function PropertyDetailPage({
       </div>
 
       {!isAuthenticated && <AuthModalGate />}
+
+      <Footer />
 
     </div>
   );

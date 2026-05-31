@@ -5,6 +5,7 @@ import Image from "next/image";
 import OpenAI from "openai";
 import DiscoveryMap from "@/components/property/DiscoveryMap";
 import DirectoryFilters from "@/components/property/DirectoryFilters";
+import Footer from "@/components/Footer";
 import { signOut } from "@/lib/auth-actions";
 import type { Metadata } from "next";
 
@@ -325,6 +326,8 @@ export default async function HomePage({
         </div>
 
       </main>
+
+      <Footer />
 
     </div>
   );
