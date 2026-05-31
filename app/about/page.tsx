@@ -404,7 +404,7 @@ export default function AboutUsPage() {
             Ready to experience Bhilwara Farms?
           </h3>
           <p className="text-xs text-green-100/90 max-w-md mx-auto leading-relaxed">
-            Whether you want to escape into a cozy weekend farm retreat or optimize your property's hospitality returns, we provide the ultimate platform tools.
+            Whether you want to escape into a cozy weekend farm retreat or optimize your property&apos;s hospitality returns, we provide the ultimate platform tools.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-2">

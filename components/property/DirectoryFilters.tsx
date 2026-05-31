@@ -54,7 +54,7 @@ export default function DirectoryFilters({
         setEndDate(nextDay.toISOString().split("T")[0]);
       }
     }
-  }, [startDate]);
+  }, [startDate, endDate]);
 
   const handleClear = () => {
     setSearch("");
