@@ -53,7 +53,7 @@ export default function AboutUsPage() {
             <Sparkles className="w-3.5 h-3.5 fill-amber-500/10" /> AI Vibe Search
           </div>
           <div className="text-xs bg-white dark:bg-slate-950 p-2.5 rounded-xl border border-stone-200/60 dark:border-slate-800/40 text-stone-600 dark:text-stone-300 italic">
-            "Pool farmhouse with lush gardens for family weekend getaway..."
+            &quot;Pool farmhouse with lush gardens for family weekend getaway...&quot;
           </div>
           <div className="flex gap-2">
             <div className="h-2 w-16 bg-green-800/20 rounded-full" />
