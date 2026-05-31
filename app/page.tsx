@@ -6,6 +6,12 @@ import OpenAI from "openai";
 import DiscoveryMap from "@/components/property/DiscoveryMap";
 import DirectoryFilters from "@/components/property/DirectoryFilters";
 import { signOut } from "@/lib/auth-actions";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Discover Premium Farmhouse Stays & Pool Lawns in Bhilwara | Bhilwara Farms",
+  description: "Find, compare, and reserve luxury farmhouses, pool lawns, and weekend retreats in Bhilwara, Rajasthan. Search by AI vibe match or check date range availability.",
+};
 
 const apiKey = process.env.OPENAI_API_KEY;
 const openai = new OpenAI({

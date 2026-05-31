@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { 
   Trees, 
   MapPin, 
@@ -15,6 +16,37 @@ import {
   Star,
   LogOut
 } from "lucide-react";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const supabase = createClient();
+  const { data: property } = await supabase
+    .from("properties")
+    .select("title, description, images")
+    .eq("slug", params.slug)
+    .single();
+
+  if (!property) {
+    return {
+      title: "Stay Details | Bhilwara Farms",
+    };
+  }
+
+  const imageUrl = property.images && property.images.length > 0 ? property.images[0] : "";
+
+  return {
+    title: `${property.title} - Book Farmhouse Stay | Bhilwara Farms`,
+    description: property.description
+      ? property.description.substring(0, 160)
+      : "Book premium staycations in Bhilwara, Rajasthan.",
+    openGraph: {
+      images: imageUrl ? [imageUrl] : [],
+    },
+  };
+}
 import { signOut } from "@/lib/auth-actions";
 import PropertyGallery from "@/components/property/PropertyGallery";
 import BookingWidget from "@/components/property/BookingWidget";
@@ -78,8 +110,34 @@ export default async function PropertyDetailPage({
         "Emergency Hospital": "12 mins (7 km)"
       };
 
+  // JSON-LD structured data for Google Search snippet integration
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "VacationRental",
+    "name": property.title,
+    "description": property.description,
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": property.address,
+      "addressLocality": "Bhilwara",
+      "addressRegion": "Rajasthan",
+      "addressCountry": "IN"
+    },
+    "priceRange": `INR ${property.base_price}`,
+    "offers": {
+      "@type": "Offer",
+      "price": property.base_price,
+      "priceCurrency": "INR",
+      "availability": "https://schema.org/InStock"
+    }
+  };
+
   return (
     <div className="flex-1 bg-stone-50/50 dark:bg-slate-950/20 min-h-screen relative flex flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       
       {/* Header Banner */}
       <header className="border-b border-stone-200/50 dark:border-slate-800/40 bg-white/70 dark:bg-slate-900/60 backdrop-blur-lg sticky top-0 z-30">
