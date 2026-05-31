@@ -395,7 +395,7 @@ export default function AboutUsPage() {
         </div>
 
         {/* CTA Footer */}
-        <div className="glass-panel p-10 rounded-3xl bg-green-800 text-white text-center space-y-5 relative overflow-hidden shadow-xl animate-fade-in">
+        <div className="p-10 rounded-3xl bg-green-800 text-white text-center space-y-5 relative overflow-hidden shadow-xl animate-fade-in">
           {/* Decorative shapes */}
           <div className="absolute top-0 right-0 w-32 h-32 bg-green-700/20 rounded-full blur-2xl pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-32 h-32 bg-amber-600/10 rounded-full blur-2xl pointer-events-none" />
