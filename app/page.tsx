@@ -140,6 +140,7 @@ export default async function HomePage({
             </span>
           </Link>
           <div className="flex items-center gap-4 text-xs font-semibold text-stone-500">
+            <Link href="/about" className="hover:text-green-850 transition-colors">About Us</Link>
             {user ? (
               <>
                 <Link href="/dashboard" className="hover:text-green-850">Owner Dashboard</Link>

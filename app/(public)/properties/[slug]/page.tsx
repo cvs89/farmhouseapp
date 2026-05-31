@@ -94,6 +94,7 @@ export default async function PropertyDetailPage({
           </Link>
           <div className="flex items-center gap-4 text-xs font-semibold text-stone-500">
             <Link href="/" className="hover:text-green-850">All Stays</Link>
+            <Link href="/about" className="hover:text-green-850 transition-colors">About Us</Link>
             {isAuthenticated ? (
               <>
                 <Link href="/dashboard" className="hover:text-green-850">Owner Dashboard</Link>
